@@ -11,7 +11,7 @@ import { Language, Mode, Theme } from './types';
 export default function App() {
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('theme');
-    return (saved as Theme) || 'dark';
+    return (saved as Theme) || 'light';
   });
   const [language, setLanguage] = useState<Language>('en');
   const [mode, setMode] = useState<Mode>('calculator');
