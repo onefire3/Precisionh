@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
+import { Download } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { GlassContainer } from './components/GlassContainer';
 import { LanguageSelector } from './components/LanguageSelector';
@@ -15,6 +16,7 @@ export default function App() {
   });
   const [language, setLanguage] = useState<Language>('en');
   const [mode, setMode] = useState<Mode>('calculator');
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -24,6 +26,27 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    });
+
+    window.addEventListener('appinstalled', () => {
+      setDeferredPrompt(null);
+      console.log('PWA was installed');
+    });
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  };
 
   const t = translations[language];
 
@@ -50,7 +73,16 @@ export default function App() {
             </h1>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {deferredPrompt && (
+              <button
+                onClick={handleInstallClick}
+                className="p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg"
+                title="Install App"
+              >
+                <Download size={18} />
+              </button>
+            )}
             <LanguageSelector language={language} setLanguage={setLanguage} t={t} />
             <ThemeToggle theme={theme} setTheme={setTheme} t={t} />
           </div>
