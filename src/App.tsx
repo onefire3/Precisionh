@@ -63,8 +63,8 @@ export default function App() {
       <main className="z-10 w-full max-w-xl flex flex-col gap-6">
         
         {/* Header Bar */}
-        <header className="flex items-center justify-between gap-4 px-4">
-          <div className="flex items-center gap-3">
+        <header className="flex items-start justify-between gap-4 px-4">
+          <div className="flex items-center gap-3 mt-1">
             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/40">
               <span className="text-white font-black text-lg">P</span>
             </div>
@@ -73,18 +73,21 @@ export default function App() {
             </h1>
           </div>
           
-          <div className="flex items-center gap-3">
-            {deferredPrompt && (
-              <button
-                onClick={handleInstallClick}
-                className="p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg"
-                title="Install App"
-              >
-                <Download size={18} />
-              </button>
-            )}
-            <LanguageSelector language={language} setLanguage={setLanguage} t={t} />
-            <ThemeToggle theme={theme} setTheme={setTheme} t={t} />
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-3">
+              {deferredPrompt && (
+                <button
+                  onClick={handleInstallClick}
+                  className="p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg"
+                  title="Install App"
+                >
+                  <Download size={18} />
+                </button>
+              )}
+              <LanguageSelector language={language} setLanguage={setLanguage} t={t} />
+              <ThemeToggle theme={theme} setTheme={setTheme} t={t} />
+            </div>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1655443871652546" crossOrigin="anonymous"></script>
           </div>
         </header>
 
